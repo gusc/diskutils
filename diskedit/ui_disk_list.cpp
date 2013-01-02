@@ -50,6 +50,7 @@ UIDiskList::UIDiskList(int x, int y, int w, int h):Fl_Table_Row(x, y, w, h){
 	col_width(2, 110);
 	col_width(3, 60);
 	col_header(1);
+	col_header_height(24);
 }
 UIDiskList::~UIDiskList(){
 	for (int i = 0; i < _list_disk_count; i ++){

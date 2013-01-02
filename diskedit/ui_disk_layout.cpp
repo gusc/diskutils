@@ -42,18 +42,41 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 UIDiskLayout::UIDiskLayout(int x, int y, int w, int h):Fl_Group(x, y, w, h){
 	_info = null;
+	_selected = -1;
 }
 UIDiskLayout::~UIDiskLayout(){
 
 }
-void UIDiskLayout::setinfo(disk_info_t *info){
+void UIDiskLayout::set_info(disk_info_t *info){
+	_selected = -1;
 	_info = info;
+	redraw();
+}
+void UIDiskLayout::set_selected(int selected){
+	_selected = selected;
 	redraw();
 }
 void UIDiskLayout::draw(){
 	Fl_Color bg = fl_rgb_color(220, 220, 220);
-	Fl_Color part = fl_rgb_color(255, 255, 255);
+	//Fl_Color part = fl_rgb_color(255, 255, 255);
 	fl_draw_box(FL_THIN_DOWN_BOX, x(), y(), w(), h(), bg);
+
+	Fl_Color part[6] = {
+		fl_rgb_color(255, 200, 200),
+		fl_rgb_color(200, 255, 200),
+		fl_rgb_color(200, 200, 255),
+		fl_rgb_color(255, 200, 255),
+		fl_rgb_color(200, 255, 255),
+		fl_rgb_color(255, 255, 200)
+	};
+	Fl_Color part_sel[6] = {
+		fl_rgb_color(255, 100, 100),
+		fl_rgb_color(100, 255, 100),
+		fl_rgb_color(100, 100, 255),
+		fl_rgb_color(255, 100, 255),
+		fl_rgb_color(100, 255, 255),
+		fl_rgb_color(255, 255, 100)
+	};
 
 	if (_info != null){
 		uint64 size = 0;
@@ -65,8 +88,12 @@ void UIDiskLayout::draw(){
 			ratio = ((float32)w()) / (float32)size;
 			for (i = 0; i < _info->gpt.part_count; i ++){
 				xp = x() + (((float32)_info->gpt.part[i].lba_start) * ratio) + 1;
-				wp = (((float32)_info->gpt.part[i].lba_size) * ratio) + 1;
-				fl_draw_box(FL_THIN_UP_BOX, xp, y() + 1, wp, h() - 2, part);
+				wp = (((float32)_info->gpt.part[i].lba_size) * ratio);
+				if (i == _selected){
+					fl_draw_box(FL_THIN_UP_BOX, xp, y() + 1, wp, h() - 2, part_sel[i % 6]);
+				} else {
+					fl_draw_box(FL_THIN_UP_BOX, xp, y() + 1, wp, h() - 2, part[i % 6]);
+				}
 			}
 		} else {
 			size = _info->size / _info->chs.bps;
@@ -74,10 +101,15 @@ void UIDiskLayout::draw(){
 			ratio = ((float32)w()) / (float32)size;
 			for (i = 0; i < _info->mbr.part_count; i ++){
 				xp = x() + (((float32)_info->mbr.part[i].lba_start) * ratio) + 1;
-				wp = (((float32)_info->mbr.part[i].lba_size) * ratio) + 1;
-				fl_draw_box(FL_THIN_UP_BOX, xp, y() + 1, wp, h() - 2, part);
+				wp = (((float32)_info->mbr.part[i].lba_size) * ratio);
+				if (i == _selected){
+					fl_draw_box(FL_THIN_UP_BOX, xp, y() + 1, wp, h() - 2, part_sel[i % 6]);
+				} else {
+					fl_draw_box(FL_THIN_UP_BOX, xp, y() + 1, wp, h() - 2, part[i % 6]);
+				}
 			}
 		}
+
 
 	}
 }

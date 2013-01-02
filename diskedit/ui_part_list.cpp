@@ -44,6 +44,7 @@ UIPartList::UIPartList(int x, int y, int w, int h):Fl_Table_Row(x, y, w, h){
 	_info = null;
 	cols(7);
 	col_header(1);
+	col_header_height(24);
 }
 UIPartList::~UIPartList(){
 	

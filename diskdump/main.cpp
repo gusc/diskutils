@@ -42,8 +42,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "main.h"
 
-char input[256] = "";
-char output[256] = "";
+char *input = null;
+char *output = null;
 uint64 input_off = 0;
 uint64 output_off = 0;
 uint32 size = 512;
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]){
 						if (strlen(arg) > 1 && *(++arg) == 'o'){
 							input_off = atoi(argv[i]);
 						} else {
-							memcpy(input, argv[i], strlen(argv[i]));
+							input = argv[i];
 							input_set = true;
 						}
 						break;
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]){
 						if (strlen(arg) > 1 && *(++arg) == 'o'){
 							output_off = atoi(argv[i]);
 						} else {
-							memcpy(output, argv[i], strlen(argv[i]));
+							output = argv[i];
 							output_set = true;
 						}
 						break;

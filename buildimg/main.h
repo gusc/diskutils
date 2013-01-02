@@ -1,9 +1,10 @@
 /*
 
-UI Disk layout
-==============
+Disk image builder
+==================
 
-This is an UI widget that displays partition distribution on the disk
+This program builds a disk image from MBR and BBP images and writes GPT
+and MBR entries accordingly
 
 License (BSD-3)
 ===============
@@ -35,29 +36,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef __ui_disk_layout_h
-#define __ui_disk_layout_h
+#ifndef __main_h
+#define __main_h
 
-#include <Fl_Group.H>
 #include <disklib.h>
 
-class UIDiskLayout : public Fl_Group {
-	
-	disk_info_t *_info;
-	int _selected;
+#define ONE_MB 1048576
+#define SECTOR 512
 
-public:
+/**
+* Print the help
+* @return void
+*/
+void print_help();
+/**
+* Build image
+* @return void
+*/
+void build_img();
 
-	UIDiskLayout(int x, int y, int w, int h);
-	~UIDiskLayout();
-
-	void set_info(disk_info_t *info);
-	void set_selected(int partidx);
-
-protected:
-
-	void draw();
-
-};
 
 #endif

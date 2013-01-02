@@ -13,16 +13,17 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "diskedit", "diskedit\disked
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "disklib", "disklib\disklib.vcxproj", "{7AA7A70C-1E3A-4800-8403-65A67F684804}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "buildimg", "buildimg\buildimg.vcxproj", "{C3093691-6C49-430C-9695-9B944A6E356B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7AA7A70C-1E3A-4800-8403-65A67F684804} = {7AA7A70C-1E3A-4800-8403-65A67F684804}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BC026C96-3FEA-438D-8FF8-D6F71C8F6473}.Debug|Win32.ActiveCfg = Debug|Win32
-		{BC026C96-3FEA-438D-8FF8-D6F71C8F6473}.Debug|Win32.Build.0 = Debug|Win32
-		{BC026C96-3FEA-438D-8FF8-D6F71C8F6473}.Release|Win32.ActiveCfg = Release|Win32
-		{BC026C96-3FEA-438D-8FF8-D6F71C8F6473}.Release|Win32.Build.0 = Release|Win32
 		{675C7533-8B2B-48A0-BBE2-8676CDF944B0}.Debug|Win32.ActiveCfg = Debug|Win32
 		{675C7533-8B2B-48A0-BBE2-8676CDF944B0}.Debug|Win32.Build.0 = Debug|Win32
 		{675C7533-8B2B-48A0-BBE2-8676CDF944B0}.Release|Win32.ActiveCfg = Release|Win32
@@ -35,6 +36,10 @@ Global
 		{7AA7A70C-1E3A-4800-8403-65A67F684804}.Debug|Win32.Build.0 = Debug|Win32
 		{7AA7A70C-1E3A-4800-8403-65A67F684804}.Release|Win32.ActiveCfg = Release|Win32
 		{7AA7A70C-1E3A-4800-8403-65A67F684804}.Release|Win32.Build.0 = Release|Win32
+		{C3093691-6C49-430C-9695-9B944A6E356B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C3093691-6C49-430C-9695-9B944A6E356B}.Debug|Win32.Build.0 = Debug|Win32
+		{C3093691-6C49-430C-9695-9B944A6E356B}.Release|Win32.ActiveCfg = Release|Win32
+		{C3093691-6C49-430C-9695-9B944A6E356B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

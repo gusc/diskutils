@@ -191,5 +191,13 @@ uint32 image_write(handle_t h, char *buffer, uint32 len, uint64 offset, bool rew
 * @return void
 */
 void format_size(char *out, uint64 size);
+/**
+* Calculate CRC32 of a char array
+* Copyright (C) 1986 Gary S. Brown.
+* @param[in] char * - source buffer
+* @param uint64 - source buffer length
+* @return uint32 - CRC32 value of source buffer
+*/
+uint32 crc32(char *in, uint64 length);
 
 #endif

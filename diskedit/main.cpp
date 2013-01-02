@@ -67,9 +67,23 @@ int main (int argc, char *argv){
 
 	_layout = new UIDiskLayout(10, 30, 780, 60);
 	_win->add(_layout);
-	_partitions = new UIPartList(10, 100, 780, 200);
+
+	_partitions = new UIPartList(10, 130, 780, 400);
+	_partitions->callback(part_sel_cb);
 	_win->add(_partitions);
-	
+
+	Fl_Button *disk_mbr = new Fl_Button(10, 100, 90, 24, "Show MBR");
+	disk_mbr->callback(disk_mbr_cb);
+	_win->add(disk_mbr);
+
+	Fl_Button *disk_gpth = new Fl_Button(110, 100, 90, 24, "Show GPT");
+	disk_gpth->callback(disk_gpth_cb);
+	_win->add(disk_gpth);
+
+	Fl_Button *disk_hex = new Fl_Button(210, 100, 90, 24, "Show Hex");
+	disk_hex->callback(disk_hex_cb);
+	_win->add(disk_hex);
+
 	_win->end();
 	_win->show();
 	int res = Fl::run();
@@ -89,7 +103,7 @@ void open_disk_cb(Fl_Widget *w, void *o){
 		if (_h != null){
 			_type = kTypeDisk;
 			if (disk_info(_h, &_info)){
-				_layout->setinfo(&_info);
+				_layout->set_info(&_info);
 				_partitions->set_disk(diskidx, &_info);
 			}
 		}
@@ -113,7 +127,7 @@ void open_image_cb(Fl_Widget *w, void *o){
 		if (_h != null){
 			_type = kTypeImage;
 			if (image_info(_h, &_info)){
-				_layout->setinfo(&_info);
+				_layout->set_info(&_info);
 				_partitions->set_disk(0, &_info);
 			}
 		}
@@ -132,6 +146,30 @@ void save_image_cb(Fl_Widget *w, void *o){
 	}
 }
 void write_disk_cb(Fl_Widget *w, void *o){
+
+}
+
+void part_sel_cb(Fl_Widget *w, void *o){
+	if (_partitions->callback_context() == Fl_Table::CONTEXT_CELL){
+		_layout->set_selected(_partitions->callback_row());
+	} else if (_partitions->callback_context() == Fl_Table::CONTEXT_TABLE){
+		_layout->set_selected(-1);
+	}
+}
+
+void disk_mbr_cb(Fl_Widget *w, void *o){
+
+}
+void disk_gpth_cb(Fl_Widget *w, void *o){
+
+}
+void disk_hex_cb(Fl_Widget *w, void *o){
+
+}
+void part_vbr_cb(Fl_Widget *w, void *o){
+
+}
+void part_gpta_cb(Fl_Widget *w, void *o){
 
 }
 

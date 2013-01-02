@@ -41,6 +41,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __structures_h
 #define __structures_h
 
+// We need to pack things up to one byte boundary,
+// because we read and write real data structures
+// from disks and images
 #pragma pack(1)
 
 #include "common.h"
@@ -101,7 +104,7 @@ typedef struct {
 	uint64 part_arr_lba;
 	uint32 part_item_count;
 	uint32 part_item_size;
-	uint32 part_arr_crc2;
+	uint32 part_arr_crc32;
 	char reserved2[420];
 } gpt_header_t; // 512 bytes
 

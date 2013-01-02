@@ -46,6 +46,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <Fl_Native_File_Chooser.H>
 #include <Fl_Menu_Item.H>
 #include <Fl_Menu_Bar.H>
+#include <Fl_Button.H>
+#include <Fl_Table.H>
 
 #include "ui_disk_chooser.h"
 #include "ui_disk_layout.h"
@@ -62,6 +64,14 @@ void open_disk_cb(Fl_Widget *w, void *o);
 void open_image_cb(Fl_Widget *w, void *o);
 void save_image_cb(Fl_Widget *w, void *o);
 void write_disk_cb(Fl_Widget *w, void *o);
+
+void part_sel_cb(Fl_Widget *w, void *o);
+
+void disk_mbr_cb(Fl_Widget *w, void *o);
+void disk_gpth_cb(Fl_Widget *w, void *o);
+void disk_hex_cb(Fl_Widget *w, void *o);
+void part_vbr_cb(Fl_Widget *w, void *o);
+void part_gpta_cb(Fl_Widget *w, void *o);
 
 void quit_cb(Fl_Widget *w, void *o);
 
