@@ -1,0 +1,13 @@
+/Debug
+/Release
+/buildimg/Debug
+/buildimg/Release
+*.user
+/diskdump/Debug
+/diskdump/Release
+/diskedit/Debug
+/diskedit/Release
+/disklib/Debug
+/disklib/Release
+/*.sdf
+/*.suo
