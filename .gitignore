@@ -11,3 +11,5 @@
 /disklib/Release
 /*.sdf
 /*.suo
+*.filters
+/ipch
