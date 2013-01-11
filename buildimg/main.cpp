@@ -173,7 +173,9 @@ void build_img(){
 	uint32 lba_count = out_size / SECTOR;
 	uint32 lba_offset = 33;
 	uint32 part_count = 0;
-	uint32 write_acc = 0;
+	uint32 read_bytes = 0;
+	uint32 write_bytes = 0;
+	uint32 write_error = 0;
 	int res = 0;
 	char *buffer = (char *)calloc(SECTOR, sizeof(char));
 	FILE *fimg = fopen(out_img, "wb");
@@ -269,8 +271,9 @@ void build_img(){
 		free(mbr);
 		lba_offset ++;
 		out_written += sizeof(mbr_t);
+		printf("%d bytes", sizeof(mbr_t));
 		if (res){
-			printf("%d bytes of %d OK\n", res, sizeof(mbr_t));
+			printf("OK\n");
 		} else {
 			printf("Error\n");
 		}
@@ -297,8 +300,9 @@ void build_img(){
 		res = fwrite(gpth, sizeof(gpt_header_t), 1, fimg);
 		lba_offset ++;
 		out_written += sizeof(gpt_header_t);
+		printf("%d bytes ", sizeof(gpt_header_t));
 		if (res){
-			printf("%d bytes of %d OK\n", res, sizeof(gpt_header_t));
+			printf("OK\n");
 		} else {
 			printf("Error\n");
 		}
@@ -308,29 +312,40 @@ void build_img(){
 		res = fwrite(gptp, sizeof(gpt_part_entry_t), 128, fimg);
 		lba_offset += 32;
 		out_written += sizeof(gpt_part_entry_t) * 128;
+		printf("%d bytes ", sizeof(gpt_part_entry_t) * 128);
 		if (res){
-			printf("%d bytes of %d OK\n", res, sizeof(gpt_part_entry_t) * 128);
+			printf("OK\n");
 		} else {
 			printf("Error\n");
 		}
 
 		// Write BBP image
 		if (fbbp){
+			read_bytes = 0;
+			write_bytes = 0;
+			write_error = 0;
 			printf("Write BBP image... ");
 			size = fsize(fbbp);
 			size_aligned = (uint32)ceil((float32)size / (float32)ONE_MB) * ONE_MB;
-			write_acc = 0;
 			while (!feof(fbbp)){
 				res = fread(buffer, sizeof(char), SECTOR, fbbp);
-				res = fwrite(buffer, sizeof(char), res, fimg);
-				write_acc += res;
+				if (res){
+					read_bytes += res;
+					res = fwrite(buffer, sizeof(char), res, fimg);
+					if (res){
+						write_bytes += res;
+					} else {
+						write_error = 1;
+					}
+				}
 			}
-			if (res){
-				printf("%d bytes of %d OK\n", write_acc, size);
+			printf("%d bytes read, %d bytes written of %d bytes total ", read_bytes, write_bytes, size);
+			if (!write_error){
+				printf("OK\n");
 			} else {
 				printf("Error\n");
 			}
-			printf("Add padding of %d bytes\n", (size_aligned - size));
+			printf("Add padding of %d bytes\n", (size_aligned - write_bytes));
 			for (i = 0; i < size_aligned - size; i ++){
 				fputc(0, fimg);
 			}
@@ -341,21 +356,31 @@ void build_img(){
 
 		// Write EFI image
 		if (fefi){
+			read_bytes = 0;
+			write_bytes = 0;
+			write_error = 0;
 			printf("Write EFI image... ");
 			size = fsize(fefi);
 			size_aligned = (uint32)ceil((float32)size / (float32)ONE_MB) * ONE_MB;
-			write_acc = 0;
 			while (!feof(fbbp)){
 				res = fread(buffer, sizeof(char), SECTOR, fefi);
-				res = fwrite(buffer, sizeof(char), res, fimg);
-				write_acc += res;
+				if (res){
+					read_bytes += res;
+					res = fwrite(buffer, sizeof(char), res, fimg);
+					if (res){
+						write_bytes += res;
+					} else {
+						write_error = 1;
+					}
+				}
 			}
-			if (res){
-				printf("%d bytes of %d OK\n", write_acc, size);
+			printf("%d bytes read, %d bytes written of %d bytes total ", read_bytes, write_bytes, size);
+			if (!write_error){
+				printf("OK\n");
 			} else {
 				printf("Error\n");
 			}
-			printf("Add padding of %d bytes\n", (size_aligned - size));
+			printf("Add padding of %d bytes\n", (size_aligned - write_bytes));
 			for (i = 0; i < size_aligned - size; i ++){
 				fputc(0, fimg);
 			}
@@ -375,8 +400,9 @@ void build_img(){
 		// Write GPT partition array (primary)
 		printf("Write secondary GPT partition array... ");
 		res = fwrite(gptp, sizeof(gpt_part_entry_t), 128, fimg);
+		printf("%d bytes ", sizeof(gpt_part_entry_t) * 128);
 		if (res){
-			printf("%d bytes of %d OK\n", res, sizeof(gpt_part_entry_t) * 128);
+			printf("OK\n");
 		} else {
 			printf("Error\n");
 		}
@@ -386,8 +412,9 @@ void build_img(){
 		// Write Secondary GPT header
 		printf("Write secondary GPT header... ");
 		res = fwrite(gpth, sizeof(gpt_header_t), 1, fimg);
+		printf("%d bytes ", sizeof(gpt_header_t));
 		if (res){
-			printf("%d bytes of %d OK\n", res, sizeof(gpt_header_t));
+			printf("OK\n");
 		} else {
 			printf("Error\n");
 		}
